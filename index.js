@@ -28,11 +28,13 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+    Counter1 is using a closure which is a function that is nested within another function.
   2. Which of the two uses a closure? How can you tell?
+  counter 1
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
-     counter2 be better?  
+     counter2 be better?
+       counter1 would be preferable if you dont want a function or variable to be called or missued elsewhere in the code.
 */
 
 // counter1 code
@@ -63,8 +65,10 @@ NOTE: This will be a callback function for the tasks below
 */
 
 function inning(/*Code Here*/){
-    /*Code Here*/
+    return Math.round(Math.random()) * 2
 }
+
+inning();
 
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
@@ -81,18 +85,29 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(inning, num){
+  console.log(inning, num, "ok")
+  let home = 0;
+  let away = 0;
+  for(let i = 0; i < num; i++) {
+    home += inning()
+    away += inning()
+  } 
+  return {Home:home, Away:away};
 }
+
+// finalScore(inning, 9);
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
   1. Receive a callback function - you will pass in the inning function from task 2 as your argument 
   2. Return an object with a score for home and a score for away that populates from invoking the inning callback function */
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(inning) {
+  return {Home:inning() , Away:inning()}
 }
+
+getInningScore(inning, 9)
 
 
 /* ⚾️⚾️⚾️ Task 5: scoreboard() ⚾️⚾️⚾️
@@ -136,9 +151,30 @@ Use the scoreboard function below to do the following:
 ]  
   */
 
-function scoreboard(/* CODE HERE */) {
-  /* CODE HERE */
+function scoreboard(getInningScore, inning, num) {
+  let scores = [];
+  let totalHome = 0;
+  let totalAway = 0;
+  for(let i = 1; i <= num; i++) {
+    
+    const {Home, Away} = getInningScore(inning)
+    totalHome += Home;
+    totalAway += Away;
+    scores.push(`Inning ${i}: Away ${Away} - Home ${Home}`)
+  }
+  // let scores = [`Inning 1: Away ${inning()} - Home ${inning()}`, `Inning 2: Away ${inning()} - Home ${Inning()}`];
+
+  if (totalHome === totalAway) {
+    scores.push(`This game will require extra innings: Away ${totalAway} - Home ${totalHome}`);
+
+  }else {
+    scores.push(`Final Score: Away ${totalAway} - Home ${totalHome}`);
+  }
+
+  return scores
 }
+
+console.log(scoreboard(getInningScore,inning, 2 ), "bitch")
 
 
 
